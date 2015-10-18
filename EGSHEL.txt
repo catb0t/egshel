@@ -1,0 +1,110 @@
+a=1
+
+btw or you can assign them like this:
+
+a1
+
+btw because variable names may not contain numbers, the integers 0-9 and (almost?) any string of these integers are read as their literal value.
+
+btw from lolcode, we have VISIBLE as vsb. everything following the apostrophe before /13, /10, or /13/10 (CR, LF, or CRLF) is treated as a string.
+
+vsb'hello world!
+
+btw alternately, vsb followed by max two capital hex characters (00-FF) denotes how many of the immediately following characters to print.
+
+vsbFprinted printedthis is a new command.
+
+unassigned expressions are evaluated as normal and return a Boolean.
+btw lolgolf can use prefix or postfix notation, with spaces for token separators.
+
+>>> * 2 2=4
+True
+
+if an expression is evaluated as such
+* 2 2=4:x
+then the value of x is set to "True".
+
+
+btw a line which both begins and ends with operators will be evaluated once and put into two following variables.
+
+printing is implicit in Concise and explicit in Verbose and Embedded Concise unless inverted by the m or mprnt flag
+
+99 BOB::
+
+Concise:
+Total (91 bytes)
+A"Take one down, pass it around" on the wall," bottles of beer*99;B@~2AC@~1A".;{:A:vBC2~A,-A
+              2~A                   1~A             ~A         A
+
+A"\nTake one down, pass it around" on the wall,\n" bottles of beer*99;   -| define A as all the constructs we need, one after another
+B@~2AC@~1A".;   -| make B listen on a reverse chronological concatenation of A and its 2 previous values, and make C listen on A and its most recent value
+{:A:vBC2~A,-A   -| for I in A: print B, print C, print C's oldest value, decrement A
+
+Verbose:
+A[99,'Take one down, pass it around,',' on the wall,',' bottles of beer'] -|
+
+OPERATORS & SYNTAX : VERBOSE
+\ - escape - allows for printing of a given following character which would have another meaning if unescaped
+
+: - comparative execute, grouper, procedure delimiter -
+
+= - EQU - assignment, when used between a variable on the left and either a variable or expression on the right >>> a=b explicitly copies a into b. comparison, if used as >>> 4=*2 2:x where x will be set to True if the statement left of its preceding colon is True, and False if otherwise
+
+! - NOT - generic NOT or negator op: applicable almost anywhere: results: the opposite of a bool(True -> False), the sign flips on float/int(-5 -> 5 -> -5), flipped bytes of a bin(0101 -> 1010), bits' values added to themselves and wrapped by least significant bit for oct or ter, a Runtime-only fatal exception on NilType, ROT47 on every applicable character in a string, and randomises the contents of an array or dictionary
+
+!! - DNOT - persistent or double NOT: results in: clears (frees from memory and disassociates entirely, aka clr or dl): bool,int[base:all],string,array,dictionary BUT any listening handles preserve the last value for the selected stream; if cast to a NilType then the variable name is autodeclared locally; if used on a user-declared function $x then the name x is freed for reassignment until next declaration; if used on a builtin function in Concise mode, that function is cleared and completely disassociated; if used on an anonymous function the function is cleared from the list and if applicable a SHIFT occurs towards 0; if used on a history-index selector then that selector and all handles to it are invalidated, but listening variables' contents are preserved
+
+| - OR - generic OR op: true if any argument evaluates as requested, applicable almost anywhere; >>> z?x|y:3 z if x or y is 3
+
+|x| - pipe - (in)finite bidirectional function pipe >>> %1)$a|3|%1)$b pipes the result of $b to $a, which evaluates it and pipes it back to $b, 3 times. if x is i this will repeat forever until either function makes a call to lnd (loop-end) which breaks the loop
+
+!| - NOR - generic NOR op: true if any argument is the opposite of requested
+
+& - AND - generic AND op: only true when both or all arguments evaluate as requested, applicable almost anywhere
+
+&& - DAND - perform two or more dand-chained statements simultaneously, making use of multiple threads -- priority is left-to-right so if two functions try to write to stdout simultaneously, the right side will wait for the left.
+
+!& - NAND - generic NOT-AND op: neither or no arguments evaluate as requested
+
+? - read junk - waits for the user to press any key, or any key followed by <RETURN> and then immediately discards it and continues execution
+
+x? - read store - query for input and put it in x
+
+w?x - statement-if-condition - w if x is not Nil or 0
+
+w?xyz -
+
+$x(y} - function definition - defines a function x which takes one or more required arguments y and executes z; y's scope is exclusive to x unless otherwise declared
+
+$x)y}  - user-defined function call - calls a function x with args x (comma separated depending on whether args are integers or variable names) or lambda-like functions
+
+#(x{y} - anonymous function definition - defines an anonymous function
+
+#n)x{y} - anonymous function call - where n is the function's zero-index in the chronological order in which it was defined
+
+a{w,x,y,z} defines a dictionary "a" containing translations between w and x, and y and z.
+
+{:x:y} - for loop - equivalent to for i in x do y
+
+{x:y} - generic loop - if x is: "1" it infinitely loops over y until a lnd is called anywhere; "0" it is nop until a lnd is called, then it starts; nothing >>> {:y} then
+
+x@yz - listener - make x "listen" on/to y and z, such that x will continually update to the most recent versions
+
+x~y - histindexer - where x is an int 0-9 or max two hexadecimal digits; res the xth history index of y (y's `x` last value)
+
+~xy - histindexer range -
+
+* - MULTIPLY | INT -
+
++ - ADD | CONCATENATE -
+
+- - SUBTRACT / NEGATIVE-INT | ??? -
+
+/ - DIVIDE | ??? -
+
+_ - DIVIDE-AND-ROUND-DOWN | ??? -
+
+% - MOD | IMMEDIATE-VARIABLE SELECTOR -
+
+
+BUILTINS : VERBOSE
